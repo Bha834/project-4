@@ -2,11 +2,12 @@ pipeline {
     agent any  // Ensure agent has Docker and kubectl
 
     environment {
-        DOCKER_IMAGE = 'bha83/flask-app'  // Replace with your DockerHub (e.g., bha834/flask-app)
-        DOCKER_TAG = "${BUILD_NUMBER}"  // Use build number as tag
-        DOCKER_CREDENTIALS = credentials('dockerhub-creds')  // Must match Jenkins credential ID
-        GIT_REPO = 'https://github.com/Bha834/project-4.git'  // Your actual repo URL
-        // For EKS: AWS_SHARED_CREDENTIALS_FILE = credentials('aws-creds')  // If needed
+        DOCKER_IMAGE = 'bha83/flask-app'  // Replace with your DockerHub repo name
+        DOCKER_TAG = "${BUILD_NUMBER}"  // Use Jenkins build number as tag (or set to 'latest')
+        DOCKER_CREDENTIALS = credentials('dockerhub-credentials')  // Jenkins credential ID for DockerHub login
+        GIT_REPO = 'https://github.com/Bha834/project-4.git'  // Replace with your GitHub repo URL
+        // For AWS EKS: Add AWS credentials if needed (e.g., AWS_ACCESS_KEY_ID = credentials('aws-creds'))
+        // KUBE_CONFIG = credentials('kubeconfig-id')  // Optional: If using a secret for kubeconfig
     }
 
     stages {
@@ -40,7 +41,7 @@ pipeline {
                 script {
                     // Dynamically update image tag in deployment.yaml
                     sh """
-                        sed -i 's/bha83\\/flask-app:v1/${DOCKER_IMAGE}:\${DOCKER_TAG}/g' deployment.yaml || true
+                        sed -i 's/yourdockerhubusername\\/flask-app:v1/${DOCKER_IMAGE}:${DOCKER_TAG}/g' deployment.yaml
                         kubectl apply -f deployment.yaml
                         kubectl apply -f service.yaml
                         kubectl rollout status deployment/flask-app --timeout=300s
