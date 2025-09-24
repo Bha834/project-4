@@ -14,7 +14,7 @@ pipeline {
         stage('Pull Code from GitHub') {
             steps {
                 // Since SCM checkout already happened, this is optional/re-pull
-                git branch: 'main', url: "${GIT_REPO}", credentialsId: 'github-credentials'  // Add creds if private
+                git branch: 'main', url: "${GIT_REPO}", credentialsId: 'github-creds'  // Add creds if private
                 echo 'Code pulled successfully from GitHub'
             }
         }
