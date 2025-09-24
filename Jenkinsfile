@@ -4,7 +4,7 @@ pipeline {
     environment {
         DOCKER_IMAGE = 'bha83/flask-app'  // Replace with your DockerHub repo name
         DOCKER_TAG = "${BUILD_NUMBER}"  // Use Jenkins build number as tag (or set to 'latest')
-        DOCKER_CREDENTIALS = credentials('dockerhub-creds')  // Jenkins credential ID for DockerHub login
+        DOCKER_CREDENTIALS = credentials('dockerhub-credentials')  // Jenkins credential ID for DockerHub login
         GIT_REPO = 'https://github.com/Bha834/project-4.git'  // Replace with your GitHub repo URL
         // For AWS EKS: Add AWS credentials if needed (e.g., AWS_ACCESS_KEY_ID = credentials('aws-creds'))
         // KUBE_CONFIG = credentials('kubeconfig-id')  // Optional: If using a secret for kubeconfig
